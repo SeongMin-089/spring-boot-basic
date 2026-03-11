@@ -18,7 +18,12 @@ public class MemberService {
     public Long join(String name, String email){
         Member member = new Member(name,email);
         return memberRepository.save(member).getId();
+    }
 
+    @Transactional(readOnly = true)
+    public Member findById(Long id){
+        return memberRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Member not found:"+id));
     }
 
     @Transactional(readOnly = true)
