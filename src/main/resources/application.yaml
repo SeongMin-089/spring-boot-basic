@@ -1,13 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:file:./data/tododb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/member_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
-server:
-  port: 9090
+  jackson:
+    time-zone: Asia/Seoul
