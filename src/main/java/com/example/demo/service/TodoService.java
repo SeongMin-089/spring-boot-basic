@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Todo;
 import com.example.demo.dto.CreateTodoRequest;
 import com.example.demo.dto.TodoResponse;
+import com.example.demo.dto.UpdateTodoRequest;
 import com.example.demo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,28 @@ public class TodoService {
                 .stream()
                 .map(TodoResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public TodoResponse findById(Long id) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Todo not found" + id));
+
+        return new TodoResponse(todo);
+    }
+
+    public TodoResponse update(Long id, UpdateTodoRequest request) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Todo not found" + id));
+
+        todo.update(
+                request.getTitle(),
+                request.getContent(),
+                request.isCompleted()
+        );
+        return new TodoResponse(todo);
+    }
+
+    public  void delete(Long id){
+        todoRepository.deleteById(id);
     }
 }
